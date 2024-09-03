@@ -94,6 +94,17 @@ class TestSingleKeys(Base):
 
         self.got('a', 'b')
 
+    def test_stuck_key(self):
+        self.map['L_XOOO'] = 'a'
+        self.map['__XOOO'] = 'x'
+        self.down('L')
+        self.down('i')
+        self.up('L')
+        self.down('i')
+        self.up('i')
+
+        self.got('a')
+
     def test_ignore_invalid_release(self):
         self.map['__XOOO'] = 'x'
         self.down('i')

@@ -7,6 +7,9 @@ class Keyboard:
         self.loaded = False
 
     def press(self, key):
+        if key in self.pressed:
+            return
+        
         self.loaded = True
         self.pressed.add(key)
 

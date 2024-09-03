@@ -1,2 +1,9 @@
+colorama==0.4.6
+docopt==0.6.2
+iniconfig==2.0.0
+keyboard==0.13.5
+packaging==24.1
+pluggy==1.5.0
 pytest==8.3.2
 pytest-watch==4.2.0
+watchdog==5.0.1
