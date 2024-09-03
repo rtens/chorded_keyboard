@@ -35,6 +35,8 @@ class Keyboard:
                 self.out.write('+'.join(modifiers + [self.map[chord]]))
                 return
 
+        self.out.write('¿')
+
 
 strings = [
     ('windows', 'w', ''),

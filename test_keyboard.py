@@ -36,26 +36,24 @@ class TestSingleKeys(Base):
         self.down('i')
         self.up('i')
 
-        self.got()
+        self.got('¿')
 
     def test_single_keys(self):
         keys = [
-            ('L', 'L_OOOO'),
-            ('R', '_ROOOO'),
-            ('i', '__XOOO'),
-            ('m', '__OXOO'),
-            ('r', '__OOXO'),
-            ('p', '__OOOX'),
+            ('L', 'L_OOOO', 'a'),
+            ('R', '_ROOOO', 'b'),
+            ('i', '__XOOO', 'c'),
+            ('m', '__OXOO', 'd'),
+            ('r', '__OOXO', 'e'),
+            ('p', '__OOOX', 'f'),
         ]
 
-        for k, s in keys:
-            self.out.written.clear()
-            self.map.clear()
-            self.map[s] = 'a' + k
+        for k, s, o in keys:
+            self.map[s] = o
             self.down(k)
             self.up(k)
 
-            self.got('a' + k)
+        self.got('a', 'b', 'c', 'd', 'e', 'f')
 
     def test_repeated_keys(self):
         self.map['__XOOO'] = 'a'
