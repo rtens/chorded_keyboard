@@ -19,7 +19,7 @@ class Base:
     def write(self, output):
         self.written.append(output)
                 
-class TestSingleKeys(Base):
+class TestChords(Base):
 
     def test_only_press(self):
         self.map['L_OOOO'] = 'a'
@@ -137,7 +137,14 @@ class TestSingleKeys(Base):
 
         self.got('a', 'b')
 
-class TestModalCombinations(Base):
+class TestModifiers(Base):
+
+    def test_just_modifier(self):
+        self.map['c__OOOO'] = 'a'
+        self.down('ctrl')
+        self.up('ctrl')
+
+        self.got('a')
 
     def test_shift(self):
         self.map['__XOOO'] = 'a'
