@@ -20,7 +20,7 @@ class Base:
         self.written.append(output)
                 
 class TestChords(Base):
-
+    
     def test_only_press(self):
         self.map['L_OOOO'] = 'a'
         self.down('L')
