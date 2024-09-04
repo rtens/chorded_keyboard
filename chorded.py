@@ -5,6 +5,7 @@ class Keyboard:
         self.out = out
         self.pressed = set()
         self.loaded = False
+        self.mode = None
 
     def press(self, key):
         if key in self.pressed:
@@ -24,18 +25,36 @@ class Keyboard:
         self.pressed.remove(key)
 
     def shoot(self):
+        mapped = self.map_chord()
+        self.mode = None
+
+        if not mapped:
+            self.out.write('¿')
+        
+        elif mapped.startswith('::'):
+            self.mode = mapped[2:]
+
+        else:
+            self.out.write(mapped)
+        
+
+    def map_chord(self):
         for split in [0, 3, 4]:
             modifiers = [k for k, y, n in strings[0:split]
                          if k in self.pressed]
+
+            if self.mode:
+                mode = '(' + self.mode + ')'
+            else:
+                mode = ''
             
-            chord = "".join([y if k in self.pressed else n
-                             for k, y, n in strings[split:]])
+            chord = mode + "".join(
+                [y if k in self.pressed else n
+                 for k, y, n in strings[split:]]
+            )
 
             if chord in self.map:
-                self.out.write('+'.join(modifiers + [self.map[chord]]))
-                return
-
-        self.out.write('¿')
+                return '+'.join(modifiers + [self.map[chord]])
 
 
 strings = [

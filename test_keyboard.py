@@ -4,8 +4,8 @@ from chorded import Keyboard
 class Base:
     def setup_method(self):
         self.map = dict()
-        self.out = Out()
-        self.keyboard = Keyboard(self.map, self.out)
+        self.written = []
+        self.keyboard = Keyboard(self.map, self)
 
     def down(self, key):
         self.keyboard.press(key)
@@ -14,11 +14,7 @@ class Base:
         self.keyboard.release(key)
 
     def got(self, *writes):
-        assert self.out.written == list(writes)
-
-class Out:
-    def __init__(self):
-        self.written = []
+        assert self.written == list(writes)
 
     def write(self, output):
         self.written.append(output)
@@ -179,3 +175,49 @@ class TestModalCombinations(Base):
 
         self.got('ctrl+a')
 
+class TestModes(Base):
+
+    def test_unknown_chord(self):
+        self.map['L_OOOO'] = '::foo'
+        self.down('L')
+        self.up('L')
+        self.down('i')
+        self.up('i')
+
+        self.got('¿')
+
+    def test_chord_in_mode(self):
+        self.map['L_OOOO'] = '::foo'
+        self.map['(foo)__XOOO'] = 'a'
+        self.down('L')
+        self.up('L')
+        self.down('i')
+        self.up('i')
+
+        self.got('a')
+
+    def test_leave_mode_after_chord(self):
+        self.map['L_OOOO'] = '::foo'
+        self.map['(foo)__XOOO'] = 'a'
+        self.map['__XOOO'] = 'b'
+        self.down('L')
+        self.up('L')
+        self.down('i')
+        self.up('i')
+        self.down('i')
+        self.up('i')
+
+        self.got('a', 'b')
+        
+    def test_leave_mode_after_unknown(self):
+        self.map['L_OOOO'] = '::foo'
+        self.map['__XOOO'] = 'a'
+        self.down('L')
+        self.up('L')
+        self.down('i')
+        self.up('i')
+        self.down('i')
+        self.up('i')
+
+        self.got('¿', 'a')
+        
