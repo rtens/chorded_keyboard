@@ -45,7 +45,7 @@ def on_key(event):
         chorded.release(key)
     active = False
 
-    print(event.event_type, key, chorded.pressed, chorded.loaded, flush=True)
+    print(event.event_type, key, chorded.pressed, chorded.mode, chorded.loaded, flush=True)
 
 for k in keys.keys():
     keyboard.hook_key(k, on_key, suppress=True)
