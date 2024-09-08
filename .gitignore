@@ -3,3 +3,4 @@ venv
 *~
 *.elc
 .pytest_cache
+.emacs.desktop
